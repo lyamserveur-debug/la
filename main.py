@@ -3,9 +3,9 @@ import json
 import websockets
 
 # --- CONFIGURATION ---
-TOKEN = "TON_TOKEN_DISCORD_ICI"
+TOKEN = "MTUwMzgyODI1MTgzNDA1NjcxNg.GGsovA.sJIqPgTY5o3hoI0cZSmiZ0Mpu8rbCrUAzgid1I"
 # Ajoute ici les IDs des salons textuels que tu veux cibler
-TARGET_CHANNELS = ["123456789012345678", "987654321098765432"] 
+TARGET_CHANNELS = ["1511400681469247490", "1511400700280832120"] 
 # ---------------------
 
 GATEWAY_URL = "wss://gateway.discord.gg/?v=10&encoding=json"
