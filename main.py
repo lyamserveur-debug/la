@@ -16,7 +16,7 @@ from flask import Flask, jsonify, request as flask_request
 # CONFIG — edit here
 # ═══════════════════════════════════════════════════════════════
 
-DISCORD_TOKEN = "MTUwMzgyODI1MTgzNDA1NjcxNg.G3fa1e.b4QfZTMLGacWrbN5GYWDHl-TAuIY0wbuq6sfh8"
+DISCORD_TOKEN = "MTUwMzgyODI1MTgzNDA1NjcxNg.GvST9l.Wb-qqnOks0TZp6iBFwm6VWrWWuY3K2uUZNft6E"
 
 # Optional Roblox place ID (None = only from Discord messages / game.PlaceId in Lua)
 PLACE_ID = None
