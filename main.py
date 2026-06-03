@@ -16,22 +16,22 @@ from flask import Flask, jsonify, request as flask_request
 # CONFIG — edit here
 # ═══════════════════════════════════════════════════════════════
 
-DISCORD_TOKEN = "MTUwMzgyODI1MTgzNDA1NjcxNg.GjjVf7.gX6Nsrt42kqQF2CpsGeoENRYK51OZqcpvHv1Qk"
+DISCORD_TOKEN = "MTUwMzgyODI1MTgzNDA1NjcxNg.G3fa1e.b4QfZTMLGacWrbN5GYWDHl-TAuIY0wbuq6sfh8"
 
 # Optional Roblox place ID (None = only from Discord messages / game.PlaceId in Lua)
 PLACE_ID = None
 
 # Discord channel IDs to monitor
 CHANNEL_IDS = [
-    1511261850787119258,
-    1511032792459382784,
+    1511301452415373342, 
     1511032750277394522,
-    1511301452415373342,
+    1511032792459382784,
+    1511443916661198888,
 ]
 
 # Flask server
-FLASK_HOST = "127.0.0.1"
-FLASK_PORT = 5000
+FLASK_HOST = "0.0.0.0"
+FLASK_PORT = 19135
 
 # ═══════════════════════════════════════════════════════════════
 
@@ -75,21 +75,38 @@ def extract_job_id(text: str):
     return None
 
 
-client = discord.Client()
+if hasattr(discord, 'Intents'):
+    intents = discord.Intents.default()
+    if hasattr(intents, 'message_content'):
+        intents.message_content = True
+    if hasattr(intents, 'presences'):
+        intents.presences = False
+    if hasattr(intents, 'typing'):
+        intents.typing = False
+    client = discord.Client(intents=intents)
+else:
+    client = discord.Client()
 
 
 @client.event
 async def on_ready():
+    if hasattr(client, 'change_presence') and hasattr(discord, 'Status'):
+        try:
+            await client.change_presence(status=discord.Status.invisible)
+        except Exception:
+            pass
     safe_print(f'[OK] Connected as {client.user} (ID: {client.user.id})')
-    safe_print(f'[OK] Monitoring {len(CHANNEL_IDS)} channels')
+    safe_print(f'[OK] Monitoring {len(CHANNEL_IDS)} channels: {CHANNEL_IDS}')
 
 
 @client.event
 async def on_message(message):
+    if message.author and message.author.id == getattr(client.user, 'id', None):
+        return
     if message.channel.id not in CHANNEL_IDS:
         return
 
-    safe_print(f'\n[MSG] Channel: {message.channel.id} | Author: {message.author}')
+    safe_print(f'\n[MSG] Channel: {message.channel.id} | Author: {message.author} | bot={getattr(message.author, "bot", False)}')
 
     text_parts = []
     if message.content:
